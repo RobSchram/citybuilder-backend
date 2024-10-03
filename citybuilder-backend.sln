@@ -3,11 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "citybuilder-backend", "citybuilder-backend\citybuilder-backend.csproj", "{0F8CDDBE-2AF5-406D-8287-455B4EFB1929}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "citybuilder-backend\Api.csproj", "{0F8CDDBE-2AF5-406D-8287-455B4EFB1929}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8C027B38-5C8B-4B67-A29C-4B4A61DADA95} = {8C027B38-5C8B-4B67-A29C-4B4A61DADA95}
+		{931CDF81-C8DA-48C1-8F33-269EA5931923} = {931CDF81-C8DA-48C1-8F33-269EA5931923}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{8C027B38-5C8B-4B67-A29C-4B4A61DADA95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{8C027B38-5C8B-4B67-A29C-4B4A61DADA95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Dal\Data.csproj", "{931CDF81-C8DA-48C1-8F33-269EA5931923}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Dal\Data.csproj", "{931CDF81-C8DA-48C1-8F33-269EA5931923}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8C027B38-5C8B-4B67-A29C-4B4A61DADA95} = {8C027B38-5C8B-4B67-A29C-4B4A61DADA95}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1FF2B9EF-70DA-4E70-8EF5-B43573DE860A}"
 	ProjectSection(SolutionItems) = preProject
