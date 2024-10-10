@@ -25,5 +25,11 @@ namespace citybuilder_backend.Controllers
             GameField gameField = _gameFieldService.GenerateGameField(rows, columns);;
             return Ok(gameField);
         }
+        [HttpPost]
+        public IActionResult PostGameField(GameField gameField) 
+        {
+            _gameFieldService.SaveGameField(gameField);
+            return Ok(gameField);
+        }
     }
 }

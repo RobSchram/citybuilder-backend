@@ -18,13 +18,11 @@ namespace Logic.Services
         }
         public GameField GenerateGameField(int row, int column)
         {
-            
             var gameField = new GameField(row, column);
-            if(gameField == null)
-            {
-                throw new NullReferenceException("gamefield is leeg");
-            }
-
+            return gameField;
+        }
+        public GameField SaveGameField(GameField gameField)
+        {
             _gameFieldRepository.Insert(gameField);
             var storedGameField = _gameFieldRepository.GetById(gameField.Id);
             if (storedGameField == null)
@@ -34,6 +32,6 @@ namespace Logic.Services
 
             return storedGameField;
         }
-    }
+    }   
 }
 
