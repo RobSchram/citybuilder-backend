@@ -15,7 +15,7 @@ public class GameFieldServiceTests
         _gameFieldService = new GameFieldService(_mockRepository.Object);
     }
     [TestMethod]
-    public void GenerateGameField_ShouldReturnNewGameField_WithCorrectDimensions()
+    public void GenerateGameField_ShouldReturnNewGameField()
     {
         int row = 5;
         int col = 6;
