@@ -14,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGameFieldService, GameFieldService>();
 builder.Services.AddScoped<IGameFieldRepository, GameFieldRepository>();
+builder.Services.AddScoped<IGameFieldCellService, GameFieldCellService>();
+builder.Services.AddScoped<IGameFieldCellRepository, GameFieldCellRepository>();
 
 var connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

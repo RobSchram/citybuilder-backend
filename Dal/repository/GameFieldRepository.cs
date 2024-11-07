@@ -12,21 +12,20 @@ namespace Data.repository
     public class GameFieldRepository : IGameFieldRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly DbSet<GameField> _dbSet;
         public GameFieldRepository(ApplicationDbContext context)
         {
             _context = context;
-            _dbSet = context.Set<GameField>();
         }
-        public void Insert(GameField entity)
+        public async Task Insert(GameField entity)
         {
-            _dbSet.Add(entity);
-            _context.SaveChanges();
+            await _context.GameFields.AddAsync(entity);
+            await _context.SaveChangesAsync();
 
         }
-        public GameField GetById(int id)
+        public async Task<GameField> GetById(int id)
         {
-            return _dbSet.Find(id);
+            var gameField = await _context.GameFields.FindAsync(id);
+            return gameField;
         }
     }
 }

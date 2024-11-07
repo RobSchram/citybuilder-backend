@@ -11,15 +11,15 @@ namespace Logic.model
     public class GameFieldCell
     {
         [Key]
-        public int Id { get; private set; }
+        public int Id { get;  set; }
 
-        public int Row { get; private set; }
-        public int Column { get; private set; }
+        public int Row { get;  set; }
+        public int Column { get;  set; }
 
         [ForeignKey("GameField")]
-        public int GameFieldId { get; private set; } 
+        public int GameFieldId { get;  set; } 
 
-        public string Type { get; private set; }
+        public string Type { get; set; }
         public GameFieldCell(int row, int column, int gameFieldId, string type)
         {
             Row = row;
