@@ -16,27 +16,20 @@ namespace citybuilder_backend.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult CreateGameField(int row, int col)
+        public IActionResult CreateGameField([FromBody] GameFieldCreateRequest request)
         {
             if (row <= 0 || col <= 0)
             {
                 return BadRequest("Rows and columns must be greater than 0.");
             }
 
-            int maxRows = 999;
-            int maxColumns = 999;
-            if (row > maxRows || col > maxColumns)
-            {
-                return BadRequest($"Rows and columns must be less than {maxRows} and {maxColumns}.");
-            }
-
-            GameField gameField = _gameFieldService.GenerateGameField(row, col);
+            GameField gameField = _gameFieldService.GenerateGameField(request.Row, request.Col);
             return Ok(gameField);
         }
 
 
         [HttpPost("save")]
-        public IActionResult PostGameField(GameField gameField) 
+        public async Task< IActionResult> PostGameField(GameField gameField) 
         {
             if (gameField == null)
             {
@@ -50,7 +43,25 @@ namespace citybuilder_backend.Controllers
             {
                 return BadRequest("GameField must have at least one cell.");
             }
-            _gameFieldService.SaveGameField(gameField);
+            await _gameFieldService.SaveGameField(gameField);
+            return Ok(gameField);
+        }
+        [HttpGet]
+        public  IActionResult GetGameFieldById(int Id)
+        {
+            GameField gameField = _gameFieldService.GetGameFieldById(Id);
+            if (gameField == null)
+            {
+                return NotFound("GameField cannot be null.");
+            }
+            if (gameField.Rows <= 0 || gameField.Columns <= 0)
+            {
+                return BadRequest("Rows and columns must be greater than 0.");
+            }
+            if (gameField.Cells == null || !gameField.Cells.Any())
+            {
+                return BadRequest("GameField must have at least one cell.");
+            }
             return Ok(gameField);
         }
     }
