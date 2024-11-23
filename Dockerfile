@@ -6,16 +6,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY citybuilder-backend.sln .                # Kopieer de solution
-COPY ./Logic ./Logic                          # Kopieer de Logic-map
-COPY ./Dal ./Dal                              # Kopieer de Dal-map
-COPY ./TestCityBuilder ./TestCityBuilder      # Kopieer de TestCityBuilder-map
+COPY .
 
 # Controleer de bestanden (debugging)
 RUN ls -la
-RUN ls -la ./Logic
-RUN ls -la ./Dal
-RUN ls -la ./TestCityBuilder
 
 # Restore de dependencies
 RUN dotnet restore citybuilder-backend.sln
