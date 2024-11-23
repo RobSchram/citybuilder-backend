@@ -1,30 +1,29 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
+# Basis image voor de runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
-# This stage is used to build the service project
+# SDK image voor de build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["citybuilder-backend/citybuilder-backend.csproj", "citybuilder-backend/"]
-RUN dotnet restore "./citybuilder-backend/citybuilder-backend.csproj"
-COPY . .
-WORKDIR "/src/citybuilder-backend"
-RUN dotnet build "./citybuilder-backend.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# This stage is used to publish the service project to be copied to the final stage
+# Kopieer de broncode (zorg ervoor dat je de juiste locatie van de map opgeeft)
+COPY ..\..\citybuilder-backend\ ./citybuilder-backend/
+
+# Restore de dependencies
+RUN dotnet restore ./citybuilder-backend/citybuilder-backend.sln
+
+# Bouw de oplossing
+RUN dotnet build ./citybuilder-backend/citybuilder-backend.sln -c $BUILD_CONFIGURATION -o /app/build
+
+# Publiceer de applicatie
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./citybuilder-backend.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish ./citybuilder-backend/citybuilder-backend.api/SOC-backend.api.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+# Final image voor productie
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "citybuilder-backend.dll"]
+ENTRYPOINT ["dotnet", "SOC-backend.api.dll"]
