@@ -4,6 +4,7 @@ EXPOSE 8080
 EXPOSE 8081
 # Gebruik de .NET SDK om te bouwen
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=RELEASE
 WORKDIR /src
 
 COPY citybuilder/ ./citybuilder-backend/
