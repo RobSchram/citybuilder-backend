@@ -12,7 +12,8 @@ WORKDIR /src
 # Kopieer de bestanden
 COPY citybuilder-backend.sln ./         # .sln in huidige map
 COPY citybuilder-backend/ ./citybuilder-backend/  # Kopieer de projectmap
-
+RUN ls -la
+RUN ls -la ./citybuilder-backend  # Controleer of de projectmap ook aanwezig is
 # Herstel de dependencies
 RUN dotnet restore citybuilder-backend.sln
 
