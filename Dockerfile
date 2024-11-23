@@ -6,7 +6,8 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY citybuilder-backend\ ./citybuilder-backend/
+COPY citybuilder-backend.sln .
+COPY citybuilder-backend/ citybuilder-backend/
 RUN dotnet restore ./citybuilder-backend/citybuilder-backend.sln
 
 RUN dotnet build ./citybuilder-backend/citybuilder-backend.sln -c $BUILD_CONFIGURATION -o /app/build
