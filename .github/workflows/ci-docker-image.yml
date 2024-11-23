@@ -24,7 +24,7 @@ jobs:
         with:
           context: .
           push: true
-          tag: robschram/citybuilder:latest
+          tags: robschram/citybuilder:latest
 
   deploy:
     needs: build
