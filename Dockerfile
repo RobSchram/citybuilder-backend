@@ -1,31 +1,26 @@
-# Basis image voor runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
-# SDK image voor build
+# Gebruik de .NET SDK om te bouwen
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Kopieer de bestanden
-COPY citybuilder-backend.sln ./         # .sln in huidige map
+# Kopieer de solution en projectbestanden
+COPY citybuilder-backend.sln .
 COPY ./citybuilder-backend/ ./citybuilder-backend/
+
+# Controleer bestanden (debugging)
 RUN ls -la
-RUN ls -la ./citybuilder-backend  # Controleer of de projectmap ook aanwezig is
-# Herstel de dependencies
+RUN ls -la ./citybuilder-backend
+
+# Restore de dependencies
 RUN dotnet restore citybuilder-backend.sln
 
-# Bouw de oplossing
-RUN dotnet build citybuilder-backend.sln -c $BUILD_CONFIGURATION -o /app/build
+# Build de applicatie
+RUN dotnet build citybuilder-backend.sln -c Release -o /app/build
 
 # Publiceer de applicatie
-FROM build AS publish
-RUN dotnet publish citybuilder-backend/Api.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish citybuilder-backend.sln -c Release -o /app/publish
 
-# Final image voor productie
-FROM base AS final
+# Gebruik de runtime-image voor productie
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Api.dll"]
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "citybuilder-backend.dll"]
