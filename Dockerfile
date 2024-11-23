@@ -10,8 +10,8 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Kopieer de oplossing en de broncode naar de container
-COPY citybuilder-backend.sln .  # Kopieer de oplossing naar de werkdirectory
-COPY citybuilder-backend/ ./citybuilder-backend/  # Kopieer de broncode naar de juiste map
+COPY ./citybuilder-backend.sln .  # Zorg ervoor dat het pad klopt vanaf je huidige directory
+COPY ./citybuilder-backend/ ./citybuilder-backend/  # Zorg ervoor dat het pad klopt
 
 # Debug stap: Controleer of de bestanden correct gekopieerd zijn
 RUN ls -la
