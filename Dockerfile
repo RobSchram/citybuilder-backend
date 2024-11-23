@@ -13,7 +13,7 @@ COPY citybuilder-backend/ ./citybuilder-backend/
 RUN ls -la
 
 # Restore de dependencies
-RUN dotnet restore ./citybuilder-backend/citybuilder-backend.sln
+RUN dotnet restore citybuilder-backend.sln
 
 # Build de applicatie
 RUN dotnet build citybuilder-backend.sln -c Release -o /app/build
