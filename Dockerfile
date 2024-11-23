@@ -8,6 +8,8 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY citybuilder-backend.sln .                    
 COPY citybuilder-backend/ ./citybuilder-backend/
+RUN ls -la
+RUN ls -la ./citybuilder-backend  # Controleer of de projectmap ook aanwezig is
 RUN dotnet restore ./citybuilder-backend/citybuilder-backend.sln
 
 RUN dotnet build ./citybuilder-backend/citybuilder-backend.sln -c $BUILD_CONFIGURATION -o /app/build
