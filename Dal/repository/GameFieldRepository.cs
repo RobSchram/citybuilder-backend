@@ -16,15 +16,19 @@ namespace Data.repository
         {
             _context = context;
         }
-        public async Task Insert(GameField entity)
+        public async Task Insert(GameField gameField)
         {
-            await _context.GameFields.AddAsync(entity);
+            _context.GameFields.Add(gameField);
+            await _context.SaveChangesAsync();
+            gameField.InitializeCells();
             await _context.SaveChangesAsync();
 
         }
         public async Task<GameField> GetById(int id)
         {
-            var gameField = await _context.GameFields.FindAsync(id);
+
+            GameField gameField = await _context.GameFields.Include(g => g.Cells).FirstOrDefaultAsync(g => g.Id == id);
+
             return gameField;
         }
     }

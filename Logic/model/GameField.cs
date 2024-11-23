@@ -21,10 +21,12 @@ namespace Logic.model
             Rows = rows;
             Columns = columns;
             Cells = new List<GameFieldCell>();
-
-            for (int i = 0; i < rows; i++)
+        }
+        public void InitializeCells()
+        {
+            for (int i = 0; i < Rows; i++)
             {
-                for (int j = 0; j < columns; j++)
+                for (int j = 0; j < Columns; j++)
                 {
                     Cells.Add(new GameFieldCell(i, j, Id, "grass"));
                 }

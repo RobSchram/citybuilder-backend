@@ -25,6 +25,11 @@ namespace Logic.Services
         {
             await _gameFieldRepository.Insert(gameField);
         }
+        public async Task<GameField> GetGameFieldById(int id)
+        {
+            var gamefield = await _gameFieldRepository.GetById(id);
+            return gamefield;
+        }
     }   
 }
 
