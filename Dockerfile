@@ -1,27 +1,33 @@
-# Gebruik ASP.NET runtime image als basis
+# Basis image voor de runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
+EXPOSE 8081
 
-# Gebruik .NET SDK image voor het bouwen van de applicatie
+# SDK image voor de build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Kopieer alle bestanden van het project naar de container
-COPY . .
+# Kopieer de oplossing en de broncode naar de container
+COPY citybuilder-backend.sln .  # Kopieer de oplossing naar de werkdirectory
+COPY citybuilder-backend/ ./citybuilder-backend/  # Kopieer de broncode naar de juiste map
 
-# Herstel de NuGet-pakketten
-RUN dotnet restore "citybuilder-backend/citybuilder-backend/Api.csproj"
+# Debug stap: Controleer of de bestanden correct gekopieerd zijn
+RUN ls -la
+RUN ls -la ./citybuilder-backend  # Controleer de inhoud van de citybuilder-backend map
 
-# Bouw het project
-RUN dotnet build "citybuilder-backend/citybuilder-backend/Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+# Herstel de dependencies
+RUN dotnet restore citybuilder-backend.sln
 
-# Publiceer het project
+# Bouw de oplossing
+RUN dotnet build citybuilder-backend.sln -c $BUILD_CONFIGURATION -o /app/build
+
+# Publiceer de applicatie
 FROM build AS publish
-RUN dotnet publish "citybuilder-backend/citybuilder-backend/Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish citybuilder-backend/Api.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Gebruik het base image voor de productieomgeving
+# Final image voor productie
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
