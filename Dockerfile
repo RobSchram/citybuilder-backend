@@ -6,7 +6,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY .
+COPY citybuilder/ ./citybuilder-backend/
 
 # Controleer de bestanden (debugging)
 RUN ls -la
