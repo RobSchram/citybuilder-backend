@@ -16,21 +16,19 @@ namespace Logic.Services
         {
             _gameFieldRepository = gameFieldRepository;
         }
-        public GameField GenerateGameField(int row, int column)
+        public async Task<GameField> GenerateGameField(int row, int column)
         {
             var gameField = new GameField(row, column);
             return gameField;
         }
-        public GameField SaveGameField(GameField gameField)
+        public async Task SaveGameField(GameField gameField)
         {
-            _gameFieldRepository.Insert(gameField);
-            var storedGameField = _gameFieldRepository.GetById(gameField.Id);
-            if (storedGameField == null)
-            {
-                throw new Exception("GameField is niet opgeslagen in de database");
-            }
-
-            return storedGameField;
+            await _gameFieldRepository.Insert(gameField);
+        }
+        public async Task<GameField> GetGameFieldById(int id)
+        {
+            var gamefield = await _gameFieldRepository.GetById(id);
+            return gamefield;
         }
     }   
 }
