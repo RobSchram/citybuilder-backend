@@ -1,21 +1,21 @@
-# Basis image voor de runtime
+# Basis image voor runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-# SDK image voor de build
+# SDK image voor build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Kopieer de oplossing en de broncode naar de container
-COPY citybuilder-backend.sln .  # Kopieer de oplossing naar de werkdirectory
-COPY citybuilder-backend/ ./citybuilder-backend/  # Kopieer de broncode naar de juiste map
+# Kopieer de bestanden
+COPY citybuilder-backend.sln ./         # .sln in huidige map
+COPY citybuilder-backend/ ./citybuilder-backend/  # Kopieer de projectmap
 
-# Debug stap: Controleer of de bestanden correct gekopieerd zijn
+# Debug: Lijst de bestanden in de map om te controleren of alles goed is gekopieerd
 RUN ls -la
-RUN ls -la ./citybuilder-backend  # Controleer de inhoud van de citybuilder-backend map
+RUN ls -la ./citybuilder-backend  # Controleer of de projectmap ook aanwezig is
 
 # Herstel de dependencies
 RUN dotnet restore citybuilder-backend.sln
