@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=RELEASE
 WORKDIR /src
 
-COPY citybuilder/ ./citybuilder-backend/
+COPY citybuilder-backend/ ./citybuilder-backend/
 
 # Controleer de bestanden (debugging)
 RUN ls -la
