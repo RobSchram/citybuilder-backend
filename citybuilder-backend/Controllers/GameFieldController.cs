@@ -15,32 +15,26 @@ namespace citybuilder_backend.Controllers
             _gameFieldService = gameFieldService;
         }
 
-        [HttpPost("create")]
-        public IActionResult CreateGameField(int row, int col)
+        [HttpPost]
+        public async Task< IActionResult> CreateGameField(int row, int col)
         {
             if (row <= 0 || col <= 0)
             {
                 return BadRequest("Rows and columns must be greater than 0.");
             }
 
-            int maxRows = 999;
-            int maxColumns = 999;
-            if (row > maxRows || col > maxColumns)
-            {
-                return BadRequest($"Rows and columns must be less than {maxRows} and {maxColumns}.");
-            }
-
-            GameField gameField = _gameFieldService.GenerateGameField(row, col);
+            GameField gameField = await _gameFieldService.GenerateGameField(row, col);
+            await _gameFieldService.SaveGameField(gameField);
             return Ok(gameField);
-        }
+        }   
 
-
-        [HttpPost("save")]
-        public IActionResult PostGameField(GameField gameField) 
+        [HttpGet]
+        public async Task<IActionResult> GetGameFieldById(int Id)
         {
+            GameField gameField = await _gameFieldService.GetGameFieldById(Id);
             if (gameField == null)
             {
-                return BadRequest("GameField cannot be null.");
+                return NotFound("GameField cannot be null.");
             }
             if (gameField.Rows <= 0 || gameField.Columns <= 0)
             {
@@ -50,7 +44,6 @@ namespace citybuilder_backend.Controllers
             {
                 return BadRequest("GameField must have at least one cell.");
             }
-            _gameFieldService.SaveGameField(gameField);
             return Ok(gameField);
         }
     }

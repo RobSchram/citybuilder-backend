@@ -9,7 +9,7 @@ namespace Logic.Interfaces
 {
     public interface IGameFieldRepository
     {
-        void Insert(GameField entity);
-        GameField GetById(int id);
+        Task Insert(GameField entity);
+        Task<GameField> GetById(int id);
     }
 }

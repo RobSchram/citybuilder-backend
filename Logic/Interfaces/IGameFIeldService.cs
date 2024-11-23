@@ -9,7 +9,8 @@ namespace Logic.Interfaces
 {
     public interface IGameFieldService
     {
-        GameField GenerateGameField(int row, int column);
-        GameField SaveGameField(GameField gameField);
+        Task<GameField> GenerateGameField(int row, int column);
+        Task SaveGameField(GameField gameField);
+        Task<GameField> GetGameFieldById(int id);
     }
 }
