@@ -37,4 +37,5 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           file: ${{ env.coverage_file }}
+          token: f7ee4fa2-5ca1-4182-8f38-b1ee4109b0d5
           fail_ci_if_error: true
