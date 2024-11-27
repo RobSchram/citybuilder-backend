@@ -21,13 +21,8 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore citybuilder-backend.sln
 
-      - name: Add MSTest packages
-        run: |
-          dotnet add package MSTest.TestAdapter
-          dotnet add package MSTest.TestFramework
-
       - name: Build
         run: dotnet build citybuilder-backend.sln --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test citybuilder-backend.sln --configuration Release --no-build --results-directory ./test-results
+        run: dotnet test citybuilder-backend.sln --configuration Release --no-build --results-directory ./test-results --collect:"XPlat Code Coverage"
