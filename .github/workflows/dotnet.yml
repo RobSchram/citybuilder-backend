@@ -1,4 +1,4 @@
-name: Run tests
+name: Run tests and generate report
 
 on:
   push:
@@ -20,6 +20,11 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore citybuilder-backend.sln
+
+      - name: Add MSTest packages
+        run: |
+          dotnet add package MSTest.TestAdapter
+          dotnet add package MSTest.TestFramework
 
       - name: Build
         run: dotnet build citybuilder-backend.sln --configuration Release --no-restore
