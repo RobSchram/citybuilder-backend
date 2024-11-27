@@ -26,11 +26,10 @@ jobs:
 
       - name: Run tests with code coverage
         run: |
-          dotnet test citybuilder-backend.sln --configuration Release --no-build \
+          dotnet test ./TestCityBuilder/bin/Release/net8.0/TestCityBuilder.dll --configuration Release --no-build \
             /p:CollectCoverage=true \
             /p:CoverletOutput=./test-results/coverage/ \
             /p:CoverletOutputFormat=cobertura
-          
       - name: Upload code coverage to GitHub
         uses: codecov/codecov-action@v3
         with:
