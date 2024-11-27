@@ -41,8 +41,10 @@ jobs:
 
       - name: Stop and remove old Docker container (if exists)
         run: |
-          docker stop citybuilder || true
-          docker rm citybuilder || true
+          docker stop citybuilder -ErrorAction SilentlyContinue
+          docker rm citybuilder -ErrorAction SilentlyContinue
+        shell: pwsh
+
 
       - name: Run new Docker container
         run: |
