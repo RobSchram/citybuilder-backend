@@ -33,4 +33,4 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: f7ee4fa2-5ca1-4182-8f38-b1ee4109b0d5
-          file: ./test-results/coverage/cobertura.xml
+          file: ./test-results/cobertura.xml
