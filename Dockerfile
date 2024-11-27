@@ -1,27 +1,30 @@
+# Base runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
-# Gebruik de .NET SDK om te bouwen
+
+# Use the .NET SDK for building
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=RELEASE
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY citybuilder-backend/ ./citybuilder-backend/
+# Copy the entire solution directory into the container
+COPY . .
 
-# Controleer de bestanden (debugging)
-RUN ls -la
+# Debugging step: Check the files in /src
+RUN ls -la /src
 
-# Restore de dependencies
-RUN dotnet restore citybuilder-backend.sln
+# Restore dependencies
+RUN dotnet restore "citybuilder-backend.sln"
 
-# Build de applicatie
-RUN dotnet build citybuilder-backend.sln -c Release -o /app/build
+# Build the application
+RUN dotnet build "citybuilder-backend.sln" -c $BUILD_CONFIGURATION -o /app/build
 
-# Publiceer de applicatie
-RUN dotnet publish citybuilder-backend.sln -c Release -o /app/publish
+# Publish the application
+RUN dotnet publish "citybuilder-backend.sln" -c $BUILD_CONFIGURATION -o /app/publish
 
-# Gebruik de runtime-image voor productie
+# Final runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
