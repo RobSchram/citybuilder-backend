@@ -28,9 +28,13 @@ jobs:
         run: dotnet test citybuilder-backend.sln --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory ./test-results
       - name: Debug coverage files
         run: ls -R ./test-results
+        
+      - name: Find code coverage file
+        id: find_coverage
+        run: echo "coverage_file=$(find ./test-results -name 'coverage.cobertura.xml')" >> $GITHUB_ENV
 
-      - name: Upload code coverage to GitHub
+      - name: Upload code coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          token: f7ee4fa2-5ca1-4182-8f38-b1ee4109b0d5
-          file: /home/runner/work/citybuilder-backend/citybuilder-backend/TestCityBuilder/test-results/*/coverage.cobertura.xml
+          file: ${{ env.coverage_file }}
+          fail_ci_if_error: true
