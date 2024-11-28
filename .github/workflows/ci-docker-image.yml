@@ -41,9 +41,10 @@ jobs:
 
       - name: Stop and remove old Docker container (if exists)
         run: |
-          docker stop citybuilder || true
-          docker rm citybuilder || true
-        shell: bash
+         docker stop citybuilder || true
+         docker rm citybuilder || true
+        shell: cmd
+
 
 
       - name: Run new Docker container
