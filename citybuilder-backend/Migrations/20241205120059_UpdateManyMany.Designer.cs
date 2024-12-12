@@ -3,6 +3,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace citybuilder_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241205120059_UpdateManyMany")]
+    partial class UpdateManyMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +24,7 @@ namespace citybuilder_backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("GameField", b =>
+            modelBuilder.Entity("Logic.model.GameField", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -95,14 +98,14 @@ namespace citybuilder_backend.Migrations
 
             modelBuilder.Entity("Logic.model.GameFieldCell", b =>
                 {
-                    b.HasOne("GameField", null)
+                    b.HasOne("Logic.model.GameField", null)
                         .WithMany("Cells")
                         .HasForeignKey("GameFieldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GameField", b =>
+            modelBuilder.Entity("Logic.model.GameField", b =>
                 {
                     b.Navigation("Cells");
                 });

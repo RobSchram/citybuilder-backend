@@ -17,17 +17,18 @@ namespace citybuilder_backend.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task< IActionResult> CreateGameField(int row, int col)
+        public async Task<IActionResult> CreateGameField([FromBody] GameFieldRequest request)
         {
-            if (row <= 0 || col <= 0)
+            if (request.Row <= 0 || request.Col <= 0)
             {
                 return BadRequest("Rows and columns must be greater than 0.");
             }
 
-            GameField gameField = await _gameFieldService.GenerateGameField(row, col);
+            GameField gameField = await _gameFieldService.GenerateGameField(request.Row, request.Col);
             await _gameFieldService.SaveGameField(gameField);
             return Ok(gameField);
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetGameFieldById(int Id)
         {

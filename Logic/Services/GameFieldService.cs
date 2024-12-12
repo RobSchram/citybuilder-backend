@@ -21,11 +21,11 @@ namespace Logic.Services
         }
         public async Task<GameField> GenerateGameField(int row, int column)
         {
-            var gameField =  new GameField(row, column);
-            var userIdClaim = Convert.ToInt32(ClaimTypes.NameIdentifier);
-            gameField.usersId.Add(userIdClaim);
+            var gameField = new GameField(row, column);
+
             return gameField;
         }
+
         public async Task SaveGameField(GameField gameField)
         {
             await _gameFieldRepository.Insert(gameField);

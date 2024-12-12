@@ -1,4 +1,6 @@
 ﻿using Logic.Interfaces;
+using Logic.model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +16,11 @@ namespace citybuilder_backend.Controllers
         {
             _gameFieldCellService = gameFieldCellService;
         }
+        [Authorize]
         [HttpPut]
-        public async Task<IActionResult> Put(int cellId, string cellType)
+        public async Task<IActionResult> Put([FromBody] UpdateGameCellRequest updateGameCellRequest)
         {
-            await _gameFieldCellService.UpdateGameFieldCell(cellId, cellType);
+            await _gameFieldCellService.UpdateGameFieldCell(updateGameCellRequest.cellId, updateGameCellRequest.cellType);
             return Ok();
         }
     }

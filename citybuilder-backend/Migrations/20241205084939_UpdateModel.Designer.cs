@@ -3,6 +3,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace citybuilder_backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241205084939_UpdateModel")]
+    partial class UpdateModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +24,7 @@ namespace citybuilder_backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("GameField", b =>
+            modelBuilder.Entity("Logic.model.GameField", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,10 +37,6 @@ namespace citybuilder_backend.Migrations
 
                     b.Property<int>("Rows")
                         .HasColumnType("int");
-
-                    b.Property<string>("usersId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -93,18 +92,57 @@ namespace citybuilder_backend.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Logic.model.UserGame", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GameFieldId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "GameFieldId");
+
+                    b.HasIndex("GameFieldId");
+
+                    b.ToTable("UserGames");
+                });
+
             modelBuilder.Entity("Logic.model.GameFieldCell", b =>
                 {
-                    b.HasOne("GameField", null)
+                    b.HasOne("Logic.model.GameField", null)
                         .WithMany("Cells")
                         .HasForeignKey("GameFieldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GameField", b =>
+            modelBuilder.Entity("Logic.model.UserGame", b =>
+                {
+                    b.HasOne("Logic.model.GameField", "GameField")
+                        .WithMany()
+                        .HasForeignKey("GameFieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Logic.model.User", "User")
+                        .WithMany("UserGames")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GameField");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Logic.model.GameField", b =>
                 {
                     b.Navigation("Cells");
+                });
+
+            modelBuilder.Entity("Logic.model.User", b =>
+                {
+                    b.Navigation("UserGames");
                 });
 #pragma warning restore 612, 618
         }
