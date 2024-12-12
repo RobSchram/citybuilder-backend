@@ -16,6 +16,7 @@ namespace Logic.model
         public int Columns { get; private set; }
 
         public virtual ICollection<GameFieldCell> Cells { get; private set; }
+        public ICollection<int> usersId { get; private set; } = new List<int>();
         public GameField(int rows, int columns)
         {
             Rows = rows;

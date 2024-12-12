@@ -1,6 +1,7 @@
 ﻿using Logic.model;
 using Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace citybuilder_backend.Controllers
 {
@@ -14,7 +15,7 @@ namespace citybuilder_backend.Controllers
         {
             _gameFieldService = gameFieldService;
         }
-
+        [Authorize]
         [HttpPost]
         public async Task< IActionResult> CreateGameField(int row, int col)
         {
@@ -26,8 +27,7 @@ namespace citybuilder_backend.Controllers
             GameField gameField = await _gameFieldService.GenerateGameField(row, col);
             await _gameFieldService.SaveGameField(gameField);
             return Ok(gameField);
-        }   
-
+        }
         [HttpGet]
         public async Task<IActionResult> GetGameFieldById(int Id)
         {

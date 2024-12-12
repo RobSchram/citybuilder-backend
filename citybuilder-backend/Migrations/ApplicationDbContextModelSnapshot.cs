@@ -35,6 +35,10 @@ namespace citybuilder_backend.Migrations
                     b.Property<int>("Rows")
                         .HasColumnType("int");
 
+                    b.Property<string>("usersId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("GameFields");
@@ -66,6 +70,27 @@ namespace citybuilder_backend.Migrations
                     b.HasIndex("GameFieldId");
 
                     b.ToTable("GameFieldCells");
+                });
+
+            modelBuilder.Entity("Logic.model.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Logic.model.GameFieldCell", b =>
