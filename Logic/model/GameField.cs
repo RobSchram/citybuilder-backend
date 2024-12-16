@@ -1,35 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Logic.model;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Logic.model
+public class GameField
 {
-    public class GameField
+    [Key]
+    public int Id { get; private set; }
+
+    public int Rows { get; private set; }
+    public int Columns { get; private set; }
+
+    public virtual ICollection<GameFieldCell> Cells { get; private set; }
+    public List<int> usersId { get; private set; } = new List<int>();
+
+    public GameField(int rows, int columns)
     {
-        [Key]
-        public int Id { get; private set; }
+        Rows = rows;
+        Columns = columns;
+        Cells = new List<GameFieldCell>();
+    }
 
-        public int Rows { get; private set; }
-        public int Columns { get; private set; }
-
-        public virtual ICollection<GameFieldCell> Cells { get; private set; }
-        public GameField(int rows, int columns)
+    public void InitializeCells()
+    {
+        for (int i = 0; i < Rows; i++)
         {
-            Rows = rows;
-            Columns = columns;
-            Cells = new List<GameFieldCell>();
-        }
-        public void InitializeCells()
-        {
-            for (int i = 0; i < Rows; i++)
+            for (int j = 0; j < Columns; j++)
             {
-                for (int j = 0; j < Columns; j++)
-                {
-                    Cells.Add(new GameFieldCell(i, j, Id, "grass"));
-                }
+                Cells.Add(new GameFieldCell(i, j, Id, "grass"));
             }
         }
     }

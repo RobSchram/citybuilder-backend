@@ -1,6 +1,7 @@
 ﻿using Logic.model;
 using Logic.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace citybuilder_backend.Controllers
 {
@@ -14,20 +15,20 @@ namespace citybuilder_backend.Controllers
         {
             _gameFieldService = gameFieldService;
         }
-
+        [Authorize]
         [HttpPost]
-        public async Task< IActionResult> CreateGameField(int row, int col)
+        public async Task<IActionResult> CreateGameField([FromBody] GameFieldDto request)
         {
-            if (row <= 0 || col <= 0)
+            if (request.Row <= 0 || request.Col <= 0)
             {
                 return BadRequest("Rows and columns must be greater than 0.");
             }
 
-            GameField gameField = await _gameFieldService.GenerateGameField(row, col);
+            GameField gameField = await _gameFieldService.GenerateGameField(request.Row, request.Col);
             await _gameFieldService.SaveGameField(gameField);
             return Ok(gameField);
-        }   
-
+        }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetGameFieldById(int Id)
         {
@@ -45,6 +46,13 @@ namespace citybuilder_backend.Controllers
                 return BadRequest("GameField must have at least one cell.");
             }
             return Ok(gameField);
+        }
+        [Authorize]
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllGameFields()
+        {
+            List<GameField> gameFields = await _gameFieldService.GetAllGameFields();
+            return Ok(gameFields);
         }
     }
 }

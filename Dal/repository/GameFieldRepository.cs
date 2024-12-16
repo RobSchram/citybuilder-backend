@@ -26,10 +26,14 @@ namespace Data.repository
         }
         public async Task<GameField> GetById(int id)
         {
-
             GameField gameField = await _context.GameFields.Include(g => g.Cells).FirstOrDefaultAsync(g => g.Id == id);
-
             return gameField;
         }
+        public async Task<List<GameField>> GetAll()
+        {
+            List<GameField> gameFields = await _context.GameFields.Include(g => g.Cells).ToListAsync();
+            return gameFields;
+        }
+
     }
 }

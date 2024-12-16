@@ -12,5 +12,6 @@ namespace Logic.Interfaces
         Task<GameField> GenerateGameField(int row, int column);
         Task SaveGameField(GameField gameField);
         Task<GameField> GetGameFieldById(int id);
+        Task<List<GameField>> GetAllGameFields();
     }
 }

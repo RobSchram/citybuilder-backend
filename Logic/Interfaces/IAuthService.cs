@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Logic.Interfaces
 {
-    public interface IGameFieldRepository
+    public interface IAuthService
     {
-        Task Insert(GameField entity);
-        Task<GameField> GetById(int id);
-        Task<List<GameField>> GetAll();
+        string GenerateJwtToken(User user);
     }
 }
