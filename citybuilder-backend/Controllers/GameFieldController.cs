@@ -17,7 +17,7 @@ namespace citybuilder_backend.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateGameField([FromBody] GameFieldRequest request)
+        public async Task<IActionResult> CreateGameField([FromBody] GameFieldDto request)
         {
             if (request.Row <= 0 || request.Col <= 0)
             {
@@ -46,6 +46,13 @@ namespace citybuilder_backend.Controllers
                 return BadRequest("GameField must have at least one cell.");
             }
             return Ok(gameField);
+        }
+        [Authorize]
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllGameFields()
+        {
+            List<GameField> gameFields = await _gameFieldService.GetAllGameFields();
+            return Ok(gameFields);
         }
     }
 }

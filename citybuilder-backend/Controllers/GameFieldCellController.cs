@@ -18,7 +18,7 @@ namespace citybuilder_backend.Controllers
         }
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] UpdateGameCellRequest updateGameCellRequest)
+        public async Task<IActionResult> Put([FromBody] UpdateGameCellDto updateGameCellRequest)
         {
             await _gameFieldCellService.UpdateGameFieldCell(updateGameCellRequest.cellId, updateGameCellRequest.cellType);
             return Ok();

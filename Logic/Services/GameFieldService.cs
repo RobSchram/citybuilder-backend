@@ -35,6 +35,11 @@ namespace Logic.Services
             var gamefield = await _gameFieldRepository.GetById(id);
             return gamefield;
         }
+        public async Task<List<GameField>> GetAllGameFields()
+        {
+            List<GameField> gameFields = await _gameFieldRepository.GetAll();
+            return gameFields;
+        }
     }   
 }
 

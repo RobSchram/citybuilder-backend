@@ -38,10 +38,15 @@ namespace Logic.Services
                 UserName = userDto.username,
                 Password = BCrypt.Net.BCrypt.HashPassword(userDto.password)
             };
-            if( Olduser == null)
+            if (Olduser == null)
             {
                 await _userRepository.AddUserAsync(user);
             }
+            else 
+            {
+                throw new ArgumentException("Username is already taken.");
+            }
+            
         }
 
         public async Task<User> AuthenticateAsync(UserDto userDto)

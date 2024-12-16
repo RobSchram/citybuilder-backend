@@ -17,7 +17,14 @@ namespace Logic.Services
         }
         public async Task UpdateGameFieldCell(int cellId, string cellType)
         {
-            await _gameFieldCellRepository.UpdateCell(cellId, cellType);
+            if (cellId >= 0 && cellType != null)
+            {
+                await _gameFieldCellRepository.UpdateCell(cellId, cellType);
+            }
+            else
+            {
+                throw new Exception("cellId must be bigger then null and celltype musnt be null");
+            }
         }
     }
 }
