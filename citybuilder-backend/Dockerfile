@@ -1,30 +1,20 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
-# This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["citybuilder-backend/citybuilder-backend.csproj", "citybuilder-backend/"]
-RUN dotnet restore "./citybuilder-backend/citybuilder-backend.csproj"
-COPY . .
-WORKDIR "/src/citybuilder-backend"
-RUN dotnet build "./citybuilder-backend.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY ..\..\citybuilder-backend\ ./citybuilder-backend/
+RUN dotnet restore ./citybuilder-backend/citybuilder-backend.sln
 
-# This stage is used to publish the service project to be copied to the final stage
+RUN dotnet build ./citybuilder-backend/citybuilder-backend.sln -c $BUILD_CONFIGURATION -o /app/build
+
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./citybuilder-backend.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "citybuilder-backend/citybuilder-backend/Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "citybuilder-backend.dll"]
+ENTRYPOINT ["dotnet", "Api.dll"]
