@@ -35,10 +35,34 @@ namespace Logic.Services
             var gamefield = await _gameFieldRepository.GetById(id);
             return gamefield;
         }
-        public async Task<List<GameField>> GetAllGameFields()
+        public async Task<List<GameField>> GetAllGameFields(int userId)
         {
-            List<GameField> gameFields = await _gameFieldRepository.GetAll();
+            List<GameField> gameFields = await _gameFieldRepository.GetAllGameFieldsForUser(userId);
             return gameFields;
+        }
+        public async Task AddUserToGameField(string username, int gameFieldId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+            if (user != null)
+            {
+                var gameField = await _gameFieldRepository.GetById(gameFieldId);
+                if (gameField == null)
+                {
+                    throw new Exception($"GameField with ID {gameFieldId} not found.");
+                }
+                if (!gameField.usersId.Contains(user.Id))
+                {
+                    await _gameFieldRepository.AddUserToGameField(gameField, user.Id);
+                }
+                else
+                {
+                    throw new Exception($"User ID {user.Id} is already associated with GameField ID {gameFieldId}.");
+                }
+            }
+            else
+            {
+                throw new Exception($"No user was found that is called {username}.");
+            }
         }
     }   
 }

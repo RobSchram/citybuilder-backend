@@ -52,7 +52,11 @@ namespace Api.Controllers
             }
 
             var token = _authService.GenerateJwtToken(user);
-            return Ok(new { Token = token });
+            return Ok(new
+            {
+                Token = token,
+                UserId = user.Id
+            });
         }
     }
 }

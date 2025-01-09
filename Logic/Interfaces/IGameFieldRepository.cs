@@ -11,6 +11,7 @@ namespace Logic.Interfaces
     {
         Task Insert(GameField entity);
         Task<GameField> GetById(int id);
-        Task<List<GameField>> GetAll();
+        Task<List<GameField>> GetAllGameFieldsForUser(int userId);
+        Task AddUserToGameField(GameField gameField, int userId);
     }
 }

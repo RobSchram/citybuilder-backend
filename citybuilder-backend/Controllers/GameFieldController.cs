@@ -25,6 +25,7 @@ namespace citybuilder_backend.Controllers
             }
 
             GameField gameField = await _gameFieldService.GenerateGameField(request.Row, request.Col);
+            gameField.addUserId(request.userId);
             await _gameFieldService.SaveGameField(gameField);
             return Ok(gameField);
         }
@@ -49,10 +50,29 @@ namespace citybuilder_backend.Controllers
         }
         [Authorize]
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllGameFields()
+        public async Task<IActionResult> GetAllGameFields([FromQuery] int userId)
         {
-            List<GameField> gameFields = await _gameFieldService.GetAllGameFields();
+            if (userId <= 0)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            var gameFields = await _gameFieldService.GetAllGameFields(userId);
+
+            if (gameFields == null || !gameFields.Any())
+            {
+                return NotFound($"No game fields found for user ID {userId}.");
+            }
+
             return Ok(gameFields);
         }
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> AddUserToGameField([FromBody] AddUserDto addUserDto )
+        {
+            await _gameFieldService.AddUserToGameField(addUserDto.userName, addUserDto.gameId); 
+            return Ok();
+        }
+
     }
 }

@@ -29,4 +29,8 @@ public class GameField
             }
         }
     }
+    public void addUserId(int userId)
+    {
+        usersId.Add(userId);
+    }
 }

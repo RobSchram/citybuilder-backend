@@ -29,11 +29,19 @@ namespace Data.repository
             GameField gameField = await _context.GameFields.Include(g => g.Cells).FirstOrDefaultAsync(g => g.Id == id);
             return gameField;
         }
-        public async Task<List<GameField>> GetAll()
+        public async Task<List<GameField>> GetAllGameFieldsForUser(int userId)
         {
-            List<GameField> gameFields = await _context.GameFields.Include(g => g.Cells).ToListAsync();
+            List<GameField> gameFields = await _context.GameFields.Include(g => g.Cells).Where(g => g.usersId.Contains(userId)).ToListAsync();
+
             return gameFields;
         }
+        public async Task AddUserToGameField(GameField gameField, int userId)
+        {
+                gameField.addUserId(userId);
+                _context.GameFields.Update(gameField);
+                await _context.SaveChangesAsync();
+        }
+
 
     }
 }

@@ -13,5 +13,7 @@ namespace Logic.model
         public int Row { get; set; }
         [Required]
         public int Col { get; set; }
+        [Required]
+        public int userId { get; set; }
     }
 }
