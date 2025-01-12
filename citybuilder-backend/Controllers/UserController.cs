@@ -27,10 +27,10 @@ namespace Api.Controllers
             if (user == null) return NotFound();
             return Ok(user);
         }
+
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] UserDto userDto)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -39,8 +39,6 @@ namespace Api.Controllers
 
             return CreatedAtAction(nameof(Register), new { username = userDto.username }, userDto);
         }
-
-
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserDto userDto)

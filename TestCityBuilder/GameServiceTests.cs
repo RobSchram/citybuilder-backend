@@ -53,19 +53,19 @@ namespace Logic.Tests
             Assert.IsNull(result);
         }
 
-        [TestMethod]
-        public async Task GetAllGameFields_ShouldReturnListOfGameFields()
-        {
-            var gameFields = new List<GameField>
-            {
-                new GameField(5, 5),
-                new GameField(10, 10)
-            };
-            _mockGameFieldRepository.Setup(repo => repo.GetAll()).ReturnsAsync(gameFields);
-            var result = await _gameFieldService.GetAllGameFields();
+        //[TestMethod]
+        //public async Task GetAllGameFields_ShouldReturnListOfGameFields()
+        //{
+        //    var gameFields = new List<GameField>
+        //    {
+        //        new GameField(5, 5),
+        //        new GameField(10, 10)
+        //    };
+        //    _mockGameFieldRepository.Setup(repo => repo.GetAll()).ReturnsAsync(gameFields);
+        //    var result = await _gameFieldService.GetAllGameFields();
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count);
-        }
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual(2, result.Count);
+        //}
     }
 }

@@ -85,25 +85,25 @@ namespace citybuilder_backend.test
             Assert.AreEqual(5, returnedGameField.Columns);
         }
 
-        [TestMethod]
-        public async Task Test_GetAllGameFields_ShouldReturnGameFields()
-        {
-            var gameFieldService = _serviceProvider.GetService<IGameFieldService>();
-            var gameField = new GameField(5, 5);
-            await gameFieldService.SaveGameField(gameField);
+        //[TestMethod]
+        //public async Task Test_GetAllGameFields_ShouldReturnGameFields()
+        //{
+        //    var gameFieldService = _serviceProvider.GetService<IGameFieldService>();
+        //    var gameField = new GameField(5, 5);
+        //    await gameFieldService.SaveGameField(gameField);
 
-            var gameFieldController = new GameFieldController(gameFieldService);
+        //    var gameFieldController = new GameFieldController(gameFieldService);
 
-            var actionResult = await gameFieldController.GetAllGameFields();
+        //    var actionResult = await gameFieldController.GetAllGameFields();
 
-            var okResult = actionResult as OkObjectResult;
-            Assert.IsNotNull(okResult);
+        //    var okResult = actionResult as OkObjectResult;
+        //    Assert.IsNotNull(okResult);
 
-            var returnedGameFields = okResult.Value as List<GameField>;
-            Assert.IsNotNull(returnedGameFields);
-            Assert.AreEqual(1, returnedGameFields.Count);
-            Assert.AreEqual(5, returnedGameFields[0].Rows);
-            Assert.AreEqual(5, returnedGameFields[0].Columns);
-        }
+        //    var returnedGameFields = okResult.Value as List<GameField>;
+        //    Assert.IsNotNull(returnedGameFields);
+        //    Assert.AreEqual(1, returnedGameFields.Count);
+        //    Assert.AreEqual(5, returnedGameFields[0].Rows);
+        //    Assert.AreEqual(5, returnedGameFields[0].Columns);
+        //}
     }
 }

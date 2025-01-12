@@ -1,13 +1,13 @@
-using citybuilder_backend.Controllers;
-using Logic.Interfaces;
-using Logic.Services;
-using Microsoft.EntityFrameworkCore;
+using citybuilder_backend.Hubs;
 using Data;
 using Data.repository;
+using Logic.Interfaces;
+using Logic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -76,15 +76,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(connectionstring, b => b.MigrationsAssembly("Api"));
 });
-
+builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
         builder =>
         {
-            builder.AllowAnyOrigin()
+            builder.WithOrigins("http://localhost:5177")
                    .AllowAnyMethod()
-                   .AllowAnyHeader();
+                   .AllowAnyHeader()
+                   .AllowCredentials();
         });
 });
 var app = builder.Build();
@@ -101,5 +102,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseWebSockets();
+app.MapHub<GameFieldHub>("/gamefieldCellHub");
 app.Run();
