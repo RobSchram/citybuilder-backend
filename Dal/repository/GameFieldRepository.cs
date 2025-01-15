@@ -41,6 +41,11 @@ namespace Data.repository
                 _context.GameFields.Update(gameField);
                 await _context.SaveChangesAsync();
         }
+        public void DeleteGameField(GameField gameField)
+        {
+             _context.GameFields.Remove(gameField);
+            _context.SaveChanges();
+        }
 
 
     }

@@ -73,6 +73,13 @@ namespace citybuilder_backend.Controllers
             await _gameFieldService.AddUserToGameField(addUserDto.userName, addUserDto.gameId); 
             return Ok();
         }
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteGameField(int id)
+        {
+            await _gameFieldService.DeleteGameField(id);
+            return Ok();
+        }
 
     }
 }

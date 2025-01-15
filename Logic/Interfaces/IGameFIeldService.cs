@@ -14,5 +14,6 @@ namespace Logic.Interfaces
         Task<GameField> GetGameFieldById(int id);
         Task<List<GameField>> GetAllGameFields(int userId);
         Task AddUserToGameField(string username, int gameFieldId);
+        Task DeleteGameField(int id);
     }
 }

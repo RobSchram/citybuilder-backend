@@ -64,6 +64,11 @@ namespace Logic.Services
                 throw new Exception($"No user was found that is called {username}.");
             }
         }
+        public async Task DeleteGameField(int id)
+        {
+           GameField gameField = await _gameFieldRepository.GetById(id);
+            _gameFieldRepository.DeleteGameField(gameField);
+        }
     }   
 }
 
